@@ -1,5 +1,6 @@
 const { getLinksForKeyword, twitter } = require('./utils')
-const rsmq = require('./rsmq')
+const { TWITTER_HANDLE } = require('./secrets');
+const rsmq = require('./services/rsmq')
 const promise = require('bluebird')
 const RSMQWorker = require('rsmq-worker')
 const getTweetWorker = new RSMQWorker('tweetQueue')
@@ -16,16 +17,15 @@ rsmq.receiveMessage('sendTweets')
 
 */
 async function tweetLinkParser(text) {
-  const handle = '@iwanttobash'
   const actionAttributes = ['GET', 'VIEW', 'GRAB']
   const splitText = text.split(' ')
 
-  const handleCheck = splitText[0].toLowerCase() === handle
+  const handleCheck = splitText[0].toLowerCase() === TWITTER_HANDLE;
   const check = actionAttributes
     .map(a => a.toLowerCase())
     .includes(splitText[1].toLowerCase())
   if (check && handleCheck) {
-    console.log(text, 'texted')
+    console.log(text, 'Keywords retrieved')
     key = getLinksForKeyword(splitText[2])
     return key
   } else return null
@@ -75,6 +75,7 @@ sendTweetWorker.on('message', (message, next, id) => {
   ]
 
   const selectedReply = replies[Math.floor(Math.random() * replies.length)]
+
   if (message) {
     const parsed = JSON.parse(message)
     const replies = parsed.map(t => {

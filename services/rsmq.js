@@ -7,7 +7,7 @@ function createRsmq() {
     createQueue(name) {
       return rsmq
         .createQueue({ qname: name })
-        .then(done => console.log(done, 'created'))
+        .then(done => console.log(done, 'Queue Created'))
         .catch(err => console.log(err))
     },
     sendMessage(queue, message) {
@@ -19,13 +19,13 @@ function createRsmq() {
     listQueues() {
       return rsmq
         .listQueues()
-        .then(queues => queues)
+        .then(queues => console.log(queues), 'List Queues')
         .catch(err => console.log(err))
     },
     receiveMessage(queue) {
       return rsmq
         .receiveMessage({ qname: queue })
-        .then(message => message)
+        .then(message => console.log(message, `Queue ${queue} recieved message`))
         .catch(err => console.log(err))
     },
     deleteMessage(queue, messageid) {

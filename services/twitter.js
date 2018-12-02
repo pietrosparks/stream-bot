@@ -1,4 +1,4 @@
-const { twitter } = require('./utils')
+const { twitter } = require('../utils')
 const rsmq = require('./rsmq')
 const makeCache = require('./cache')
 const { isEmpty } = require('lodash')
@@ -12,6 +12,7 @@ module.exports.getMentions = async (lastTweetRetrieved = null) => {
         4. Store last tweetId in cache 
         5. Send Tweets to [tweetQueue]
     */
+   
   let options = {}
   const cache = await makeCache()
   const lastTweetId =
