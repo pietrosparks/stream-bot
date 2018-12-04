@@ -40,12 +40,8 @@ async function getLinksForKeyword(keyword) {
     const filterDiscord = finalLinks.filter(
       link => !link.match(nonDiscordRegex)
     )
-
     console.log(filterDiscord, ' filtered links')
     return filterDiscord
-
-    // postTweet(`${search} returned ${finalLinks[0]}`);
-    // getMentions()
   } catch (err) {
     console.log(err, 'error')
   }

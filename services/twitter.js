@@ -3,8 +3,7 @@ const rsmq = require('./rsmq')
 const makeCache = require('./cache')
 const { isEmpty } = require('lodash')
 
-module.exports.getMentions = async (lastTweetRetrieved = null) => {
-  /*
+/*
         (A) Get Mentions from Twitter Sensibly
         1. If no prior tweetId in cache, retrieve all tweets, else retrieve from last tweet 
         2. Map the tweets to capture just relevant info 
@@ -12,13 +11,14 @@ module.exports.getMentions = async (lastTweetRetrieved = null) => {
         4. Store last tweetId in cache 
         5. Send Tweets to [tweetQueue]
     */
-   
+
+module.exports.getMentions = async lastTweetRetrieved => {
   let options = {}
   const cache = await makeCache()
   const lastTweetId =
     lastTweetRetrieved || (await cache.getAsync('lastTweetRetrieved'))
-
   if (lastTweetId !== 'undefined') {
+    console.log('Last tweet:', lastTweetId)
     options = {
       since_id: lastTweetId
     }
@@ -44,4 +44,3 @@ module.exports.getMentions = async (lastTweetRetrieved = null) => {
   }
 }
 
-module.export = twitter

@@ -1,7 +1,8 @@
 const RedisSMQ = require('rsmq-promise')
+const { REDIS_HOSTNAME, REDIS_PORT } = require('../secrets')
 
 function createRsmq() {
-  const rsmq = new RedisSMQ({ host: '127.0.0.1', port: 6379, ns: 'rsmq', realtime: true})
+  const rsmq = new RedisSMQ({ host: REDIS_HOSTNAME, port: REDIS_PORT, ns: 'rsmq', realtime: true})
 
   return {
     createQueue(name) {
@@ -19,7 +20,7 @@ function createRsmq() {
     listQueues() {
       return rsmq
         .listQueues()
-        .then(queues => console.log(queues), 'List Queues')
+        .then(queues => queues)
         .catch(err => console.log(err))
     },
     receiveMessage(queue) {
